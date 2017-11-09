@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @company.name %>
+</p>
+
+<%= form_with(model: [ @company, @employee], local: true) do |form| %>
+  <%= form.label 'first_name' %>
+  <%= form.text_field :first_name %>
+  <%= form.label 'last_name' %>
+  <%= form.text_field :last_name %>
+  <%= form.label 'email' %>
+  <%= form.text_field :email %>
+  <%= form.select :area_id, @areas.collect{|a| [a.name, a.id]}, prompt: "elige" %>
+  <%= form.submit %>
+<% end %>
+
+<table class="table">
+  <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Email</th>
+    <th>Area</th>
+    </tr>
+    <% @company.employees.each do |employee| %>
+    <tr>
+      <td> <%= employee.first_name %> </td>
+      <td> <%= employee.last_name %> </td>
+      <td> <%= employee.email %> </td>
+      <td> <%= employee.area.name %> </td>
+      <td> Eliminar </td>
+      <td>
+        <div class="btn btn-primary">
+      <%= link_to 'x', company_employee_path(@company, employee), :class => "btn", method: :delete %>
+      </div>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>
